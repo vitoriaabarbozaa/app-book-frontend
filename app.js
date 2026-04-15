@@ -1,120 +1,88 @@
-const API_URL = 'http://localhost:3000/api/entries';
+const PET_API_URL = 'https://petapp-backend-a2pr.onrender.com/api/pets';
 
-const form = document.getElementById('entry-form');
-const entryId = document.getElementById('entry-id');
-const title = document.getElementById('title');
-const description = document.getElementById('description');
-const happenedAt = document.getElementById('happenedAt');
-const entriesList = document.getElementById('entries-list');
-const message = document.getElementById('message');
-const cancelEdit = document.getElementById('cancel-edit');
-const formTitle = document.getElementById('form-title');
-const reloadBtn = document.getElementById('reload-btn');
+const petForm = document.getElementById('pet-form');
+const petName = document.getElementById('pet-name');
+const petBreed = document.getElementById('pet-breed');
+const petAge = document.getElementById('pet-age');
+const petsList = document.getElementById('pets-list');
 
-function showMessage(text) {
-  message.textContent = text;
-}
+let editingPetId = null;
 
-function clearForm() {
-  form.reset();
-  entryId.value = '';
-  formTitle.textContent = 'Novo registro';
-  cancelEdit.classList.add('hidden');
-  happenedAt.value = new Date().toISOString().slice(0, 16);
-}
+async function loadPets() {
+  if (!petsList) return;
 
-function formatDate(date) {
-  return new Date(date).toLocaleString('pt-BR');
-}
+  try {
+    const response = await fetch(PET_API_URL);
+    if (!response.ok) throw new Error('Erro ao carregar pets');
 
-async function loadEntries() {
-  const response = await fetch(API_URL);
-  const entries = await response.json();
+    const pets = await response.json();
+    petsList.innerHTML = '';
 
-  if (!entries.length) {
-    entriesList.innerHTML = '<p>Nenhum registro encontrado.</p>';
-    return;
+    if (!pets.length) {
+      petsList.innerHTML = '<li>Nenhum pet cadastrado.</li>';
+      return;
+    }
+
+    pets.forEach((pet) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <strong>${pet.name}</strong> - ${pet.breed} - ${pet.age} anos
+        <button onclick="editPet('${pet._id}', '${pet.name}', '${pet.breed}', ${pet.age})">Editar</button>
+        <button onclick="deletePet('${pet._id}')">Excluir</button>
+      `;
+      petsList.appendChild(li);
+    });
+  } catch (error) {
+    console.error('Erro ao carregar pets:', error);
   }
-
-  entriesList.innerHTML = entries.map(entry => `
-    <div class="entry-item">
-      <h3>${entry.title}</h3>
-      <p>${formatDate(entry.happenedAt)}</p>
-      <p>${entry.description}</p>
-      <div class="entry-buttons">
-        <button onclick="editEntry('${entry._id}')">Editar</button>
-        <button onclick="deleteEntry('${entry._id}')">Excluir</button>
-      </div>
-    </div>
-  `).join('');
 }
 
-async function saveEntry(data) {
-  const id = entryId.value;
-  const url = id ? `${API_URL}/${id}` : API_URL;
-  const method = id ? 'PUT' : 'POST';
+if (petForm) {
+  petForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  await fetch(url, {
-    method,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
-}
+    const petData = {
+      name: petName.value,
+      breed: petBreed.value,
+      age: Number(petAge.value)
+    };
 
-window.editEntry = async function (id) {
-  const response = await fetch(`${API_URL}/${id}`);
-  const entry = await response.json();
-
-  entryId.value = entry._id;
-  title.value = entry.title;
-  description.value = entry.description;
-  happenedAt.value = new Date(entry.happenedAt).toISOString().slice(0, 16);
-
-  formTitle.textContent = 'Editar registro';
-  cancelEdit.classList.remove('hidden');
-  showMessage('Editando registro.');
-};
-
-window.deleteEntry = async function (id) {
-  if (!confirm('Deseja excluir este registro?')) return;
-
-  await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-  showMessage('Registro excluído.');
-  loadEntries();
-};
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const data = {
-    title: title.value,
-    description: description.value,
-    happenedAt: happenedAt.value
-  };
-
-  await saveEntry(data);
-  showMessage(entryId.value ? 'Registro atualizado.' : 'Registro criado.');
-  clearForm();
-  loadEntries();
-});
-
-cancelEdit.addEventListener('click', () => {
-  clearForm();
-  showMessage('Edição cancelada.');
-});
-
-reloadBtn.addEventListener('click', loadEntries);
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
     try {
-      await navigator.serviceWorker.register('./service-worker.js');
-      console.log('Service Worker registrado com sucesso.');
+      const response = await fetch(
+        editingPetId ? `${PET_API_URL}/${editingPetId}` : PET_API_URL,
+        {
+          method: editingPetId ? 'PUT' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(petData)
+        }
+      );
+
+      if (!response.ok) throw new Error('Erro ao salvar pet');
+
+      editingPetId = null;
+      petForm.reset();
+      loadPets();
     } catch (error) {
-      console.log('Erro ao registrar Service Worker:', error);
+      console.error('Erro ao salvar pet:', error);
     }
   });
 }
 
-clearForm();
-loadEntries();
+window.editPet = function (id, name, breed, age) {
+  petName.value = name;
+  petBreed.value = breed;
+  petAge.value = age;
+  editingPetId = id;
+};
+
+window.deletePet = async function (id) {
+  try {
+    const response = await fetch(`${PET_API_URL}/${id}`, { method: 'DELETE' });
+    if (!response.ok) throw new Error('Erro ao excluir pet');
+    loadPets();
+  } catch (error) {
+    console.error('Erro ao excluir pet:', error);
+  }
+};
+
+loadPets();
