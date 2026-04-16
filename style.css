@@ -2,28 +2,21 @@
   --bg-main: linear-gradient(180deg, #0b0b16 0%, #111126 100%);
   --bg-spot-1: rgba(139, 92, 246, 0.16);
   --bg-spot-2: rgba(236, 72, 153, 0.14);
-
   --card-bg: rgba(20, 20, 36, 0.72);
   --card-border: rgba(255, 255, 255, 0.12);
-
   --text: #f5f3ff;
   --text-soft: #d6d3f0;
   --text-muted: #b8aef0;
-
   --input-bg: rgba(255, 255, 255, 0.05);
   --input-border: rgba(196, 181, 253, 0.14);
   --input-placeholder: rgba(255, 255, 255, 0.45);
-
   --primary: #8b5cf6;
   --primary-2: #a855f7;
   --accent: #ec4899;
-
   --button-soft: rgba(255, 255, 255, 0.08);
   --button-soft-border: rgba(255, 255, 255, 0.1);
-
   --item-bg: rgba(255, 255, 255, 0.045);
   --item-border: rgba(255, 255, 255, 0.08);
-
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
   --radius-xl: 28px;
   --radius-lg: 20px;
@@ -33,25 +26,19 @@
 body.light-mode {
   --bg-main: linear-gradient(180deg, #f8f5ff 0%, #efe9ff 100%);
   --bg-spot-1: rgba(139, 92, 246, 0.12);
-  --bg-spot-2: rgba(236, 72, 153, 0.10);
-
-  --card-bg: rgba(255, 255, 255, 0.72);
+  --bg-spot-2: rgba(236, 72, 153, 0.1);
+  --card-bg: rgba(255, 255, 255, 0.78);
   --card-border: rgba(139, 92, 246, 0.12);
-
   --text: #221b3a;
   --text-soft: #574b75;
   --text-muted: #6c5f8f;
-
   --input-bg: rgba(139, 92, 246, 0.04);
   --input-border: rgba(139, 92, 246, 0.12);
   --input-placeholder: rgba(34, 27, 58, 0.45);
-
   --button-soft: rgba(139, 92, 246, 0.08);
   --button-soft-border: rgba(139, 92, 246, 0.12);
-
   --item-bg: rgba(139, 92, 246, 0.04);
-  --item-border: rgba(139, 92, 246, 0.10);
-
+  --item-border: rgba(139, 92, 246, 0.1);
   --shadow: 0 20px 60px rgba(106, 79, 170, 0.12);
 }
 
@@ -198,6 +185,12 @@ body {
   color: #f5d0fe;
   background: rgba(236, 72, 153, 0.14);
   border: 1px solid rgba(236, 72, 153, 0.18);
+}
+
+body.light-mode .section-tag {
+  color: #831843;
+  background: rgba(236, 72, 153, 0.18);
+  border: 1px solid rgba(236, 72, 153, 0.35);
 }
 
 .section-top h2 {
@@ -373,6 +366,16 @@ body {
   background: rgba(236, 72, 153, 0.14);
   color: #ffd4ec;
   border: 1px solid rgba(236, 72, 153, 0.2);
+}
+
+body.light-mode .entry-buttons button:last-child {
+  color: #9f1239;
+  background: rgba(244, 114, 182, 0.18);
+  border: 1px solid rgba(236, 72, 153, 0.4);
+}
+
+body.light-mode .entry-buttons button:last-child:hover {
+  background: rgba(244, 114, 182, 0.26);
 }
 
 .entry-buttons button:hover {
