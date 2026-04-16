@@ -1,17 +1,58 @@
 :root {
-  --bg: #0f0f1b;
-  --bg-soft: #17172a;
+  --bg-main: linear-gradient(180deg, #0b0b16 0%, #111126 100%);
+  --bg-spot-1: rgba(139, 92, 246, 0.16);
+  --bg-spot-2: rgba(236, 72, 153, 0.14);
+
+  --card-bg: rgba(20, 20, 36, 0.72);
   --card-border: rgba(255, 255, 255, 0.12);
+
   --text: #f5f3ff;
-  --muted: #c4b5fd;
-  --muted-2: #d6d3f0;
+  --text-soft: #d6d3f0;
+  --text-muted: #b8aef0;
+
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-border: rgba(196, 181, 253, 0.14);
+  --input-placeholder: rgba(255, 255, 255, 0.45);
+
   --primary: #8b5cf6;
   --primary-2: #a855f7;
   --accent: #ec4899;
+
+  --button-soft: rgba(255, 255, 255, 0.08);
+  --button-soft-border: rgba(255, 255, 255, 0.1);
+
+  --item-bg: rgba(255, 255, 255, 0.045);
+  --item-border: rgba(255, 255, 255, 0.08);
+
   --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
   --radius-xl: 28px;
   --radius-lg: 20px;
   --radius-md: 16px;
+}
+
+body.light-mode {
+  --bg-main: linear-gradient(180deg, #f8f5ff 0%, #efe9ff 100%);
+  --bg-spot-1: rgba(139, 92, 246, 0.12);
+  --bg-spot-2: rgba(236, 72, 153, 0.10);
+
+  --card-bg: rgba(255, 255, 255, 0.72);
+  --card-border: rgba(139, 92, 246, 0.12);
+
+  --text: #221b3a;
+  --text-soft: #574b75;
+  --text-muted: #6c5f8f;
+
+  --input-bg: rgba(139, 92, 246, 0.04);
+  --input-border: rgba(139, 92, 246, 0.12);
+  --input-placeholder: rgba(34, 27, 58, 0.45);
+
+  --button-soft: rgba(139, 92, 246, 0.08);
+  --button-soft-border: rgba(139, 92, 246, 0.12);
+
+  --item-bg: rgba(139, 92, 246, 0.04);
+  --item-border: rgba(139, 92, 246, 0.10);
+
+  --shadow: 0 20px 60px rgba(106, 79, 170, 0.12);
 }
 
 * {
@@ -23,12 +64,13 @@ body {
   min-height: 100vh;
   font-family: "Inter", "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(139, 92, 246, 0.16), transparent 30%),
-    radial-gradient(circle at top right, rgba(236, 72, 153, 0.14), transparent 28%),
-    linear-gradient(180deg, #0b0b16 0%, #111126 100%);
+    radial-gradient(circle at top left, var(--bg-spot-1), transparent 30%),
+    radial-gradient(circle at top right, var(--bg-spot-2), transparent 28%),
+    var(--bg-main);
   color: var(--text);
   position: relative;
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .bg-blur {
@@ -68,6 +110,15 @@ body {
   margin-bottom: 18px;
 }
 
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
 .hero-badge {
   display: inline-flex;
   align-items: center;
@@ -76,10 +127,25 @@ body {
   border-radius: 999px;
   background: rgba(139, 92, 246, 0.18);
   border: 1px solid rgba(196, 181, 253, 0.18);
-  color: #e9ddff;
+  color: var(--text);
   font-size: 0.88rem;
   letter-spacing: 0.02em;
-  margin-bottom: 18px;
+}
+
+.theme-toggle-btn {
+  border: 1px solid var(--button-soft-border);
+  background: var(--button-soft);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.theme-toggle-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(139, 92, 246, 0.14);
 }
 
 .hero-section h1 {
@@ -88,12 +154,13 @@ body {
   margin: 0 0 14px;
   font-weight: 800;
   letter-spacing: -0.04em;
+  color: var(--text);
 }
 
 .hero-section p {
   max-width: 720px;
   margin: 0 auto;
-  color: var(--muted-2);
+  color: var(--text-soft);
   font-size: 1.05rem;
   line-height: 1.7;
 }
@@ -106,12 +173,13 @@ body {
 }
 
 .glass-card {
-  background: rgba(20, 20, 36, 0.72);
+  background: var(--card-bg);
   backdrop-filter: blur(18px);
   border: 1px solid var(--card-border);
   border-radius: var(--radius-xl);
   padding: 26px;
   box-shadow: var(--shadow);
+  transition: 0.3s ease;
 }
 
 .section-top {
@@ -136,12 +204,12 @@ body {
   margin: 0 0 8px;
   font-size: 1.8rem;
   font-weight: 800;
-  color: white;
+  color: var(--text);
 }
 
 .section-top p {
   margin: 0;
-  color: var(--muted-2);
+  color: var(--text-soft);
   line-height: 1.6;
 }
 
@@ -160,16 +228,16 @@ body {
 .input-group-custom label {
   font-size: 0.94rem;
   font-weight: 600;
-  color: #e9ddff;
+  color: var(--text);
 }
 
 .input-group-custom input,
 .input-group-custom textarea,
 .input-group-custom select {
   width: 100%;
-  border: 1px solid rgba(196, 181, 253, 0.14);
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text);
   border-radius: var(--radius-md);
   padding: 14px 16px;
   outline: none;
@@ -178,7 +246,7 @@ body {
 
 .input-group-custom input::placeholder,
 .input-group-custom textarea::placeholder {
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--input-placeholder);
 }
 
 .input-group-custom input:focus,
@@ -197,7 +265,7 @@ body {
 
 .helper-text {
   font-size: 0.85rem;
-  color: #b8aef0;
+  color: var(--text-muted);
   line-height: 1.4;
 }
 
@@ -238,9 +306,9 @@ body {
 }
 
 .secondary-btn {
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--button-soft);
+  color: var(--text);
+  border: 1px solid var(--button-soft-border);
 }
 
 .secondary-btn:hover {
@@ -253,12 +321,12 @@ body {
 }
 
 #books-list > p {
-  color: var(--muted-2);
+  color: var(--text-soft);
 }
 
 .entry-item {
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--item-bg);
+  border: 1px solid var(--item-border);
   border-radius: 22px;
   padding: 18px;
   transition: 0.25s ease;
@@ -272,14 +340,14 @@ body {
 
 .entry-item h3 {
   margin: 0 0 12px;
-  color: white;
+  color: var(--text);
   font-size: 1.16rem;
   font-weight: 700;
 }
 
 .entry-item p {
   margin: 0 0 8px;
-  color: #ddd6fe;
+  color: var(--text-soft);
   line-height: 1.55;
 }
 
@@ -297,7 +365,7 @@ body {
 
 .entry-buttons button:first-child {
   background: rgba(99, 102, 241, 0.16);
-  color: #e9ddff;
+  color: var(--text);
   border: 1px solid rgba(129, 140, 248, 0.22);
 }
 
@@ -318,6 +386,10 @@ body {
 @media (max-width: 980px) {
   .content-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero-top {
+    justify-content: center;
   }
 }
 
@@ -355,7 +427,8 @@ body {
 
   .main-btn,
   .secondary-btn,
-  .entry-buttons button {
+  .entry-buttons button,
+  .theme-toggle-btn {
     width: 100%;
   }
 }

@@ -140,3 +140,35 @@ if (cancelBookEdit) {
 
 updateRatingState();
 loadBooks();
+
+const themeToggle = document.getElementById('theme-toggle');
+
+function updateThemeButton() {
+  const isLightMode = document.body.classList.contains('light-mode');
+  themeToggle.textContent = isLightMode ? '🌙 modo escuro' : '☀️ modo claro';
+}
+
+function applySavedTheme() {
+  const savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-mode');
+  }
+
+  updateThemeButton();
+}
+
+if (themeToggle) {
+  applySavedTheme();
+
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+
+    const currentTheme = document.body.classList.contains('light-mode')
+      ? 'light'
+      : 'dark';
+
+    localStorage.setItem('theme', currentTheme);
+    updateThemeButton();
+  });
+}
