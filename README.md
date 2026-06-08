@@ -1,4 +1,4 @@
-# Minha Estante - Mobile App
+# Minha Estante - Mobile App (Expo SDK 52)
 
 Aplicativo mobile desenvolvido com React Native e Expo para gerenciar uma coleção pessoal de livros.
 
@@ -12,9 +12,9 @@ Aplicativo mobile desenvolvido com React Native e Expo para gerenciar uma coleç
 ## Requisitos
 
 - Node.js instalado
-- Expo Go instalado no celular (para testar em dispositivo físico)
+- App **Expo Go** instalado no celular
 
-## Instalação
+## Instalação e Execução
 
 1. Entre na pasta do projeto:
    ```bash
@@ -26,14 +26,14 @@ Aplicativo mobile desenvolvido com React Native e Expo para gerenciar uma coleç
    npm install
    ```
 
-3. Configure a API:
-   Edite o arquivo `src/services/api.js` e altere a `baseURL` para o IP da sua máquina caso esteja testando em um celular real.
+3. **Configuração da API:**
+   Abra o arquivo `src/services/api.js` e altere a `baseURL` para o IP da sua máquina (ex: `http://192.168.x.x:3000/api`).
 
-## Execução
+4. Inicie o projeto:
+   ```bash
+   npx expo start
+   ```
 
-Inicie o projeto Expo:
-```bash
-npx expo start
-```
+5. Escaneie o QR Code com o app **Expo Go** no seu celular.
 
-Escaneie o QR Code com o app Expo Go no seu celular.
+> **Importante:** O celular e o computador devem estar conectados na mesma rede Wi-Fi para que o app consiga acessar a API do backend.
